@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fady Emad Milik - Professional Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+        html { scroll-behavior: smooth; }
+        #particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; pointer-events: none;
+        }
+        section {
+            background-color: rgba(255,255,255,0.2) !important;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity: 1; transform: translateY(0);} }
+        .dark body { background: #18181b; color: #e5e7eb; }
+        .dark section { background-color: rgba(24,24,27,0.7) !important; }
+        .dark header, .dark footer { background: #27272a; color: #e5e7eb; }
+        .dark .bg-white { background: #23232a !important; }
+        .dark .text-gray-800 { color: #e5e7eb !important; }
+        .dark .text-gray-600 { color: #a1a1aa !important; }
+        .dark .bg-gray-50 { background: #23232a !important; }
+        .dark .bg-blue-50 { background: #1e293b !important; }
+        .dark .bg-green-50 { background: #1e293b !important; }
+        .dark .bg-purple-50 { background: #1e293b !important; }
+        .dark .bg-yellow-50 { background: #1e293b !important; }
+        .dark .bg-gray-100 { background: #18181b !important; }
+        .dark .border-gray-300 { border-color: #3f3f46 !important; }
+        .dark .shadow-xl, .dark .shadow-lg, .dark .shadow-inner { box-shadow: 0 2px 8px #0004; }
+        .dark .text-blue-600 { color: #60a5fa !important; }
+        .dark .text-blue-700 { color: #3b82f6 !important; }
+        .dark .bg-blue-600 { background: #2563eb !important; }
+        .dark .bg-blue-700 { background: #1d4ed8 !important; }
+        .dark .hover\:bg-blue-700:hover { background: #1d4ed8 !important; }
+        .dark .hover\:text-blue-400:hover { color: #60a5fa !important; }
+        .dark .bg-blue-100 { background: #1e293b !important; }
+        .dark .bg-green-100 { background: #1e293b !important; }
+        .dark .bg-purple-100 { background: #1e293b !important; }
+        .dark .bg-yellow-100 { background: #1e293b !important; }
+        .dark .text-yellow-800 { color: #fde68a !important; }
+        .dark .text-green-800 { color: #6ee7b7 !important; }
+        .dark .text-purple-800 { color: #c4b5fd !important; }
+        .dark .text-blue-800 { color: #93c5fd !important; }
+        .dark .border-blue-500 { border-color: #2563eb !important; }
+        .dark .focus\:ring-blue-500:focus { box-shadow: 0 0 0 2px #2563eb; }
+        .dark .text-red-500 { color: #f87171 !important; }
+        .dark .hover\:underline:hover { text-decoration: underline; }
+        .dark .bg-gray-800 { background: #18181b !important; }
+        .dark .bg-gray-50 { background: #23232a !important; }
+        .dark .bg-gray-100 { background: #18181b !important; }
+        .dark .text-white { color: #e5e7eb !important; }
+        .dark .text-gray-900 { color: #e5e7eb !important; }
+        .dark .shadow-inner { box-shadow: 0 2px 8px #0004; }
+        .dark .focus\:shadow-outline:focus { box-shadow: 0 0 0 2px #2563eb; }
+        .dark .shadow-lg { box-shadow: 0 2px 8px #0004; }
+        .dark .shadow-xl { box-shadow: 0 2px 8px #0004; }
+        .dark .shadow-2xl { box-shadow: 0 4px 16px #0006; }
+        .dark .shadow-inner { box-shadow: 0 2px 8px #0004; }
+        .dark .shadow { box-shadow: 0 1px 4px #0002; }
+        .dark .shadow-md { box-shadow: 0 2px 8px #0004; }
+        .dark .shadow-sm { box-shadow: 0 1px 4px #0002; }
+        .dark .shadow-none { box-shadow: none; }
+        .dark .border { border-color: #3f3f46 !important; }
+        .dark .border-gray-200 { border-color: #3f3f46 !important; }
+        .dark .border-gray-300 { border-color: #3f3f46 !important; }
+        .dark .border-blue-500 { border-color: #2563eb !important; }
+        .dark .border-4 { border-width: 4px; }
+        .dark .rounded-full { border-radius: 9999px; }
+        .dark .rounded-xl { border-radius: 1rem; }
+        .dark .rounded-lg { border-radius: 0.5rem; }
+        .dark .rounded-md { border-radius: 0.375rem; }
+        .dark .rounded { border-radius: 0.25rem; }
+        .dark .rounded-none { border-radius: 0; }
+        .dark .rounded-tl { border-top-left-radius: 0.25rem; }
+        .dark .rounded-tr { border-top-right-radius: 0.25rem; }
+        .dark .rounded-bl { border-bottom-left-radius: 0.25rem; }
+        .dark .rounded-br { border-bottom-right-radius: 0.25rem; }
+        .dark .rounded-t { border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; }
+        .dark .rounded-b { border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; }
+        .dark .rounded-l { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem; }
+        .dark .rounded-r { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem; }
+        .dark .rounded-tl-none { border-top-left-radius: 0; }
+        .dark .rounded-tr-none { border-top-right-radius: 0; }
+        .dark .rounded-bl-none { border-bottom-left-radius: 0; }
+        .dark .rounded-br-none { border-bottom-right-radius: 0; }
+        .dark .rounded-t-none { border-top-left-radius: 0; border-top-right-radius: 0; }
+        .dark .rounded-b-none { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+        .dark .rounded-l-none { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+        .dark .rounded-r-none { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+        .dark .rounded-none { border-radius: 0; }
+        .dark .rounded-full { border-radius: 9999px; }
+        .dark .rounded-xl { border-radius: 1rem; }
+        .dark .rounded-lg { border-radius: 0.5rem; }
+        .dark .rounded-md { border-radius: 0.375rem; }
+        .dark .rounded { border-radius: 0.25rem; }
+        .dark .rounded-none { border-radius: 0; }
+        .dark .rounded-tl { border-top-left-radius: 0.25rem; }
+        .dark .rounded-tr { border-top-right-radius: 0.25rem; }
+        .dark .rounded-bl { border-bottom-left-radius: 0.25rem; }
+        .dark .rounded-br { border-bottom-right-radius: 0.25rem; }
+        .dark .rounded-t { border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; }
+        .dark .rounded-b { border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; }
+        .dark .rounded-l { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem; }
+        .dark .rounded-r { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem; }
+        .dark .rounded-tl-none { border-top-left-radius: 0; }
+        .dark .rounded-tr-none { border-top-right-radius: 0; }
+        .dark .rounded-bl-none { border-bottom-left-radius: 0; }
+        .dark .rounded-br-none { border-bottom-right-radius: 0; }
+        .dark .rounded-t-none { border-top-left-radius: 0; border-top-right-radius: 0; }
+        .dark .rounded-b-none { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+        .dark .rounded-l-none { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+        .dark .rounded-r-none { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+        .dark .rounded-none { border-radius: 0; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-white to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <canvas id="particle-canvas"></canvas>
+    <!-- Header Section: Navigation Bar -->
+    <header class="bg-gray-800 dark:bg-gray-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tight">Fady Emad Milik</h1>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6 text-lg">
+                    <li><a href="#about" class="hover:text-blue-400 transition-colors duration-300">About</a></li>
+                    <li><a href="#projects" class="hover:text-blue-400 transition-colors duration-300">Projects</a></li>
+                    <li><a href="#skills" class="hover:text-blue-400 transition-colors duration-300">Skills</a></li>
+                    <li><a href="#contact" class="hover:text-blue-400 transition-colors duration-300">Contact</a></li>
+                </ul>
+            </nav>
+            <!-- Mobile Hamburger -->
+            <button id="menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="ph ph-list"></i>
+            </button>
+            <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-90 z-50 hidden flex flex-col items-center justify-center">
+                <button id="close-menu" class="absolute top-6 right-8 text-3xl text-white"><i class="ph ph-x"></i></button>
+                <ul class="flex flex-col space-y-8 text-2xl text-white">
+                    <li><a href="#about" class="hover:text-blue-400" onclick="toggleMenu()">About</a></li>
+                    <li><a href="#projects" class="hover:text-blue-400" onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="#skills" class="hover:text-blue-400" onclick="toggleMenu()">Skills</a></li>
+                    <li><a href="#contact" class="hover:text-blue-400" onclick="toggleMenu()">Contact</a></li>
+                </ul>
+            </nav>
+            <!-- Dark Mode Toggle -->
+            <button id="dark-toggle" class="ml-4 text-xl focus:outline-none" aria-label="Toggle dark mode">
+                <i class="ph ph-moon"></i>
+            </button>
+            <!-- Socials -->
+            <div class="ml-4 flex space-x-3">
+                <a href="https://www.linkedin.com/in/fady-emad-software-eng/" class="text-xl hover:text-blue-400" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="https://github.com/fady-e-milik" class="text-xl hover:text-blue-400" aria-label="GitHub"><i class="ph ph-github-logo"></i></a>
+                <a href="#contact" class="text-xl hover:text-blue-400" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="flex flex-col items-center justify-center min-h-[60vh] py-20 fade-in" style="animation-delay:0.1s;">
+        <img src="https://placehold.co/180x180/2575fc/ffffff?text=Fady" alt="Fady Emad Milik" class="rounded-full w-44 h-44 object-cover mb-6 border-4 border-blue-500 shadow-lg animate-fade-in-up">
+        <h2 class="text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-4 animate-fade-in-up">Hi, I'm Fady Emad Milik</h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl text-center mb-6 animate-fade-in-up">
+            QA Engineer | Software Tester | Automation Enthusiast
+        </p>
+        <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in-up">
+            Let's Connect
+        </a>
+    </section>
+
+    <main class="container mx-auto py-8 px-4">
+        <!-- About Me Section -->
+        <section id="about" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 mb-12 fade-in" style="animation-delay: 0.2s;">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-3 animate-fade-in-up">About Me</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed animate-fade-in-up">
+                    Welcome to my professional portfolio! I'm <span class="font-semibold text-blue-600">Fady Emad Milik</span>, a dedicated and meticulous
+                    <strong class="text-blue-700">Software Tester (QA Engineer)</strong> with a passion for ensuring the delivery of high-quality,
+                    reliable, and user-friendly software solutions. My expertise lies in identifying defects,
+                    optimizing testing processes, and contributing to robust product development lifecycles.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700 dark:text-gray-300 animate-fade-in-up">
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">My Philosophy</h3>
+                    <p class="leading-relaxed mb-4">
+                        I believe that quality is not just a phase, but an integral part of the entire software development process.
+                        My approach combines a keen eye for detail with a comprehensive understanding of testing methodologies to uncover issues early
+                        and prevent them from reaching production. I am committed to continuous learning and adapting to new technologies and challenges.
+                    </p>
+                    <p class="leading-relaxed">
+                        My goal is to provide actionable insights that help teams build better products, fostering a culture of quality and excellence.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">What I Bring</h3>
+                    <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                        <li><strong class="text-blue-600">Comprehensive Testing:</strong> From functional and regression to performance and security testing.</li>
+                        <li><strong class="text-blue-600">Test Automation:</strong> Designing and implementing efficient automated test suites.</li>
+                        <li><strong class="text-blue-600">Defect Management:</strong> Thorough bug reporting, tracking, and validation.</li>
+                        <li><strong class="text-blue-600">Process Improvement:</strong> Streamlining QA workflows for efficiency and effectiveness.</li>
+                        <li><strong class="text-blue-600">Cross-Functional Collaboration:</strong> Working closely with developers, product owners, and stakeholders.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 mb-12 fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-4xl font-extrabold text-center text-gray-800 dark:text-gray-100 mb-10 animate-fade-in-up">My Testing Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Project Card 1: E-commerce Platform Quality Assurance -->
+                <div class="project-card bg-gray-50 p-7 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 animate-scale-in">
+                    <img src="https://placehold.co/600x400/007bff/ffffff?text=QA+E-commerce" alt="E-commerce Platform Quality Assurance" class="w-full h-48 object-cover rounded-md mb-5 border border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">E-commerce Platform QA & Automation</h3>
+                    <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                        Led the quality assurance efforts for a large-scale e-commerce web application, including manual and automated testing.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 text-sm space-y-2">
+                        <li><strong class="text-blue-600">Challenge:</strong> Ensure seamless shopping experience and robust transaction processing.</li>
+                        <li><strong class="text-blue-600">My Role:</strong> Senior QA Engineer (Test plan creation, automation script development, defect management, regression testing).</li>
+                        <li><strong class="text-blue-600">Methodology/Tools:</strong> Agile Scrum, Selenium WebDriver (Java), TestNG, Maven, Jira, Postman for API testing.</li>
+                        <li><strong class="text-blue-600">Process:</strong> Requirements analysis, test case design, end-to-end test automation, daily stand-ups, sprint retrospectives.</li>
+                        <li><strong class="text-blue-600">Impact:</strong> Automated <span class="font-bold">80% of critical regression tests</span>, reduced manual testing effort by <span class="font-bold">60%</span>, contributed to <span class="font-bold">15% reduction in post-release defects</span>.</li>
+                    </ul>
+                </div>
+
+                <!-- Project Card 2: Mobile Application Performance Testing -->
+                <div class="project-card bg-gray-50 p-7 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 animate-scale-in" style="animation-delay: 0.1s;">
+                    <img src="https://placehold.co/600x400/17a2b8/ffffff?text=Performance+Testing" alt="Mobile Application Performance Testing" class="w-full h-48 object-cover rounded-md mb-5 border border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Mobile App Performance & Security Testing</h3>
+                    <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                        Conducted performance and basic security testing for a high-traffic mobile application to ensure scalability and data integrity.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 text-sm space-y-2">
+                        <li><strong class="text-blue-600">Challenge:</strong> Identify performance bottlenecks and potential security vulnerabilities.</li>
+                        <li><strong class="text-blue-600">My Role:</strong> QA Analyst (Load testing, stress testing, security vulnerability scanning, reporting).</li>
+                        <li><strong class="text-blue-600">Methodology/Tools:</strong> JMeter, OWASP ZAP (basic scans), Android Studio Profiler, Fiddler.</li>
+                        <li><strong class="text-blue-600">Process:</strong> Scripting load scenarios, analyzing response times, identifying resource utilization spikes, vulnerability assessment.</li>
+                        <li><strong class="text-blue-600">Impact:</strong> Identified critical API response delays, leading to a <span class="font-bold">20% improvement in app responsiveness</span> under load; detected and reported <span class="font-bold">3 medium-severity security flaws</span>.</li>
+                    </ul>
+                </div>
+
+                <!-- Project Card 3: CI/CD Pipeline Integration for Test Automation -->
+                <div class="project-card bg-gray-50 p-7 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 animate-scale-in" style="animation-delay: 0.2s;">
+                    <img src="https://placehold.co/600x400/28a745/ffffff?text=CI/CD+QA" alt="CI/CD Pipeline Integration for Test Automation" class="w-full h-48 object-cover rounded-md mb-5 border border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">CI/CD Pipeline for Automated Testing</h3>
+                    <p class="text-sm text-gray-600 mb-4 leading-relaxed">
+                        Integrated automated test suites into a Continuous Integration/Continuous Delivery pipeline for faster feedback.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 text-sm space-y-2">
+                        <li><strong class="text-blue-600">Challenge:</strong> Accelerate release cycles by automating testing within the CI/CD flow.</li>
+                        <li><strong class="text-blue-600">My Role:</strong> Automation QA Specialist (Pipeline configuration, test trigger setup, reporting integration).</li>
+                        <li><strong class="text-blue-600">Methodology/Tools:</strong> DevOps, Jenkins/GitLab CI, Docker, Playwright (JavaScript), Allure Report.</li>
+                        <li><strong class="text-blue-600">Process:</strong> Scripting CI/CD stages, configuring automated builds and test runs, visualizing test results.</li>
+                        <li><strong class="text-blue-600">Impact:</strong> Enabled <span class="font-bold">daily automated regression runs</span>, reduced defect detection time by <span class="font-bold">75%</span>, and supported weekly production deployments with confidence.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 mb-12 fade-in" style="animation-delay: 0.6s;">
+            <h2 class="text-4xl font-extrabold text-center text-gray-800 dark:text-gray-100 mb-10 animate-fade-in-up">Skills & Expertise</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Testing Types & Methodologies -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-inner animate-slide-in-left">
+                    <h3 class="text-xl font-semibold text-blue-800 mb-3">Testing Types & Methodologies</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="bg-blue-100 text-blue-800 py-2 px-4 rounded-full text-center font-medium">Functional Testing</li>
+                        <li class="bg-blue-100 text-blue-800 py-2 px-4 rounded-full text-center font-medium">Regression Testing</li>
+                        <li class="bg-blue-100 text-blue-800 py-2 px-4 rounded-full text-center font-medium">Performance Testing</li>
+                        <li class="bg-blue-100 text-blue-800 py-2 px-4 rounded-full text-center font-medium">Security Testing (Basic)</li>
+                        <li class="bg-blue-100 text-blue-800 py-2 px-4 rounded-full text-center font-medium">Usability Testing</li>
+                        <li class="bg-blue-100 text-blue-800 py-2 px-4 rounded-full text-center font-medium">Agile & Scrum</li>
+                    </ul>
+                </div>
+                <!-- Automation Tools & Frameworks -->
+                <div class="bg-green-50 p-6 rounded-lg shadow-inner animate-slide-in-left" style="animation-delay: 0.1s;">
+                    <h3 class="text-xl font-semibold text-green-800 mb-3">Automation Tools & Frameworks</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="bg-green-100 text-green-800 py-2 px-4 rounded-full text-center font-medium">Selenium WebDriver</li>
+                        <li class="bg-green-100 text-green-800 py-2 px-4 rounded-full text-center font-medium">Playwright</li>
+                        <li class="bg-green-100 text-green-800 py-2 px-4 rounded-full text-center font-medium">JUnit / TestNG</li>
+                        <li class="bg-green-100 text-green-800 py-2 px-4 rounded-full text-center font-medium">Postman / Newman</li>
+                        <li class="bg-green-100 text-green-800 py-2 px-4 rounded-full text-center font-medium">JMeter</li>
+                    </ul>
+                </div>
+                <!-- Test Management & Collaboration Tools -->
+                <div class="bg-purple-50 p-6 rounded-lg shadow-inner animate-slide-in-left" style="animation-delay: 0.2s;">
+                    <h3 class="text-xl font-semibold text-purple-800 mb-3">Test Management & Reporting</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="bg-purple-100 text-purple-800 py-2 px-4 rounded-full text-center font-medium">Jira / Confluence</li>
+                        <li class="bg-purple-100 text-purple-800 py-2 px-4 rounded-full text-center font-medium">TestRail / Xray</li>
+                        <li class="bg-purple-100 text-purple-800 py-2 px-4 rounded-full text-center font-medium">Allure Report</li>
+                        <li class="bg-purple-100 text-purple-800 py-2 px-4 rounded-full text-center font-medium">Git & GitHub</li>
+                        <li class="bg-purple-100 text-purple-800 py-2 px-4 rounded-full text-center font-medium">CI/CD (Jenkins, GitLab CI)</li>
+                    </ul>
+                </div>
+                 <!-- Programming & Scripting -->
+                <div class="bg-yellow-50 p-6 rounded-lg shadow-inner animate-slide-in-left" style="animation-delay: 0.3s;">
+                    <h3 class="text-xl font-semibold text-yellow-800 mb-3">Programming & Scripting</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="bg-yellow-100 text-yellow-800 py-2 px-4 rounded-full text-center font-medium">Java</li>
+                        <li class="bg-yellow-100 text-yellow-800 py-2 px-4 rounded-full text-center font-medium">Python</li>
+                        <li class="bg-yellow-100 text-yellow-800 py-2 px-4 rounded-full text-center font-medium">JavaScript</li>
+                        <li class="bg-yellow-100 text-yellow-800 py-2 px-4 rounded-full text-center font-medium">SQL</li>
+                        <li class="bg-yellow-100 text-yellow-800 py-2 px-4 rounded-full text-center font-medium">Bash/Shell Scripting</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Me Section -->
+        <section id="contact" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 fade-in" style="animation-delay: 0.8s;">
+            <h2 class="text-4xl font-extrabold text-center text-gray-800 dark:text-gray-100 mb-10 animate-fade-in-up">Contact Me</h2>
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-8 max-w-xl mx-auto animate-fade-in-up">
+                Interested in collaborating or just want to discuss quality assurance best practices? Feel free to reach out using the form below, or connect with me on LinkedIn.
+            </p>
+            <form action="https://formspree.io/f/mvgqebog" method="POST" id="contact-form" class="max-w-xl mx-auto bg-gray-50 dark:bg-gray-900 p-8 rounded-lg shadow-inner animate-fade-in-up">
+                <div class="mb-5">
+                    <label for="name" class="block text-gray-700 dark:text-gray-200 text-lg font-bold mb-2">Name:</label>
+                    <input type="text" id="name" name="name" required
+                           class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 bg-white dark:bg-gray-800">
+                </div>
+                <div class="mb-5">
+                    <label for="email" class="block text-gray-700 dark:text-gray-200 text-lg font-bold mb-2">Email:</label>
+                    <input type="email" id="email" name="email" required
+                           class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 bg-white dark:bg-gray-800">
+                </div>
+                <div class="mb-8">
+                    <label for="message" class="block text-gray-700 dark:text-gray-200 text-lg font-bold mb-2">Message:</label>
+                    <textarea id="message" name="message" rows="6" required
+                              class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 dark:text-gray-100 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 bg-white dark:bg-gray-800"></textarea>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full focus:outline-none focus:shadow-outline transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+            <div class="text-center mt-8 text-gray-600 dark:text-gray-300">
+                <p>You can also find me on <a href="https://www.linkedin.com/in/fady-emad-software-eng/" class="text-blue-600 hover:underline font-medium">LinkedIn</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white text-center p-6 mt-12 shadow-inner">
+        <p class="text-md">&copy; 2025 Fady Emad Milik. All rights reserved.</p>
+        <p class="text-sm mt-2">Built with <span class="text-red-500">&hearts;</span> and a passion for quality software.</p>
+    </footer>
+
+    <!-- JavaScript for Particle Background, Mobile Menu, Dark Mode, Contact Form -->
+    <script>
+        // Particle Background (unchanged)
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animationFrameId;
+
+            function setCanvasSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            class Particle {
+                constructor(x, y) {
+                    this.x = x || Math.random() * canvas.width;
+                    this.y = y || Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.color = 'rgba(100, 100, 100, 0.5)';
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                    if (this.y > canvas.height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            function initParticles() {
+                particles = [];
+                const numberOfParticles = Math.floor((canvas.width * canvas.height) / 8000);
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                animationFrameId = requestAnimationFrame(animateParticles);
+            }
+            window.addEventListener('resize', () => {
+                cancelAnimationFrame(animationFrameId);
+                setCanvasSize();
+                initParticles();
+                animateParticles();
+            });
+            setCanvasSize();
+            initParticles();
+            animateParticles();
+
+            // Section fade-in
+            const sections = document.querySelectorAll('section.fade-in');
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            sections.forEach(section => observer.observe(section));
+        });
+
+        // Mobile Menu
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+        document.getElementById('menu-btn').onclick = toggleMenu;
+        document.getElementById('close-menu').onclick = toggleMenu;
+
+        // Dark Mode Toggle
+        const darkToggle = document.getElementById('dark-toggle');
+        darkToggle.onclick = () => {
+            document.documentElement.classList.toggle('dark');
+            darkToggle.innerHTML = document.documentElement.classList.contains('dark')
+                ? '<i class="ph ph-sun"></i>' : '<i class="ph ph-moon"></i>';
+        };
+
+        
+    </script>
+</body>
+</html>
